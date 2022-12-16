@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="shortcut icon" href="https://1xpto.netlify.app/items/favicon.gif" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="default.css">
+  <title>Intro to dom timeupdate event</title>
+  <style>
+    audio {
+      width: 30%;
+      border: 5px solid red;
+      margin: 0 5px;
+      border-radius: 5px;
+      transform: scaleY(3);
+    }
+
+    .box {
+      transform: translateY(100px)
+    }
+
+    @media all and (orientation:portrait) {
+      audio {
+        width: 90%;
+        margin: 60px 0;
+      }
+
+      .box {
+        transform: translateY(0)
+      }
+    }
+
+    @media all and (orientation:landscape) and (max-width:640px) {
+      audio {
+        width: 90%;
+        margin: 60px 0;
+      }
+
+      .box {
+        transform: translateY(0)
+      }
+    }
+
+    @media all and (orientation:landscape) and (min-width:641px) and (max-width:768px) {
+      audio {
+        width: 90%;
+        margin: 60px 0;
+      }
+
+      .box {
+        transform: translateY(0)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <img style='display: none' src='card.gif' />
+
+  <div class='box'>
+    <center>
+      <audio controls src="https://1xpto.netlify.app/posts/player mp3/local/soundtrack 1.mp3"></audio>
+      <audio controls src="https://1xpto.netlify.app/posts/player mp3/local/soundtrack 24.mp3"></audio>
+      <audio controls src="https://1xpto.netlify.app/posts/player mp3/local/soundtrack 25.mp3"></audio>
+    </center>
+  </div>
+
+  <script>
+    audio = document.getElementsByTagName("audio");
+    document.addEventListener("play", goplay, true);
+
+    function goplay() {
+      for (i = 0; i < audio.length; i++) {
+        if (audio[i] == event.target) {
+          audio[i].play();
+        } else {
+          audio[i].pause();
+        }
+      }
+    }
+    document.addEventListener("click", function() {
+      for (i = 0; i < audio.length; i++) {
+        audio[i].pause();
+      }
+    });
+    document.addEventListener('timeupdate', () => {
+      for (i = 0; i < audio.length; i++) {
+        if (audio[i] == event.target && audio[i].currentTime >= audio[i].duration) {
+          audio[i].currentTime = 0;
+          audio[i].play();
+        }
+      }
+    }, true);
+  </script>
+</body>
+
+</html>
